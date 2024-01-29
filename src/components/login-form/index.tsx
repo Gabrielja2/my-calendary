@@ -60,7 +60,7 @@ export function LoginForm() {
                     </div>
                 </label>
 
-                <label className="inline items-left text-[--text-dark] font-bold w-full">
+                <label className="inline items-left text-[--text-dark] font-bold w-full mb-4">
                     Senha
                     <div className="relative items-center">
                         <Input
@@ -78,13 +78,6 @@ export function LoginForm() {
                         />
                     </div>
                 </label>
-
-                <a
-                    className="flex w-full justify-end text-[--text-dark] hover:underline font-light text-sm mb-4"
-                    href="/recovery-password-link"
-                >
-                    Esqueci minha senha
-                </a>
 
                 <div className="flex flex-col items-center mt-4 w-full">
                     <Button

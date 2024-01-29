@@ -7,7 +7,4 @@ export * from "./button";
 export * from "./footer";
 export * from "./home";
 export * from "./banner";
-export * from "./recovery-password-form";
-export * from "./reset-password-form";
-export * from "./confirm-code-form";
 export * from "./input";
