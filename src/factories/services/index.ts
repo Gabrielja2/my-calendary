@@ -1,6 +1,6 @@
 import { HttpAdapter, RestServicesAdapter } from "@/external";
 import { HandleSignHelper, HandleSignupHelper } from "@/helpers";
-import { CreateUserService, LoginService, RecoveryPasswordService } from "@/services";
+import { CreateUserService, LoginService } from "@/services";
 import { toastifyAdapter } from "../external";
 
 export const httpAdapter = new HttpAdapter();
