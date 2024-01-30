@@ -1,5 +1,4 @@
 export * from "./header";
-export * from "./modal-header";
 export * from "./login-form";
 export * from "./create-user-form";
 export * from "./navbar";
@@ -8,3 +7,5 @@ export * from "./footer";
 export * from "./home";
 export * from "./banner";
 export * from "./input";
+export * from "./modal-online";
+export * from "./modal-offline";

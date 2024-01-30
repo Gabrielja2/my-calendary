@@ -1,25 +1,61 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { createUserService, handleSignupHelper } from "@/factories";
+import { handleSignupHelper } from "@/factories";
 import { Input } from "@/components";
-import { FaEye } from "react-icons/fa";
+import { EyeIcon } from "lucide-react";
 import { toastifyAdapter } from "@/factories";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function CreateUserForm() {
     const [showPassword, setShowPassword] = useState("password");
     const [showConfirmPassword, setShowConfirmPassword] = useState("password");
 
+    const createFormSchema = z
+        .object({
+            username: z
+                .string()
+                .min(3, "Seu nome deve conter pelo menos 3 caracteres"),
+            email: z.string().email("Email inválido"),
+            password: z
+                .string()
+                .min(8, "Sua senha deve conter pelo menos 8 caracteres")
+                .regex(
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?:([0-9a-zA-Z])){8,}$/,
+                    "Deve ter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número"
+                ),
+            confirmPassword: z
+                .string()
+                .min(8, "Sua senha deve conter pelo menos 8 caracteres")
+                .regex(
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?:([0-9a-zA-Z])){8,}$/,
+                    "Sua senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número"
+                ),
+        })
+        .refine(
+            ({ password, confirmPassword }) => password === confirmPassword,
+            {
+                message: "As senhas devem ser iguais",
+                path: ["confirmPassword"],
+            }
+        );
+
+    type LoginFormSchema = z.infer<typeof createFormSchema>;
+
     const {
         register,
-        watch,
-        reset,
         handleSubmit,
-        formState,
-        formState: { isSubmitSuccessful },
-    } = useForm();
-
-    const formData = watch();
+        formState: { isSubmitting, errors },
+    } = useForm<LoginFormSchema>({
+        resolver: zodResolver(createFormSchema),
+        defaultValues: {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+        },
+    });
 
     const handleSignUp = handleSignupHelper.execute;
     const setVisiblePassword = () => {
@@ -33,17 +69,6 @@ export function CreateUserForm() {
             ? setShowConfirmPassword("text")
             : setShowConfirmPassword("password");
     };
-
-    useEffect(() => {
-        if (formState.isSubmitSuccessful) {
-            reset({
-                username: "",
-                email: "",
-                password: "",
-                confirmPassword: "",
-            });
-        }
-    }, [formState, reset]);
 
     return (
         <section className="flex flex-col w-full lg:w-1/2 lg:border-l lg:border-[--border-dark] lg:h-[90%] lg:m-auto h-full items-center p-8">
@@ -61,11 +86,16 @@ export function CreateUserForm() {
                         <Input
                             {...register("username")}
                             type="text"
-                            required={true}
+                            autoComplete={"off"}
                             placeholder="Seu nome"
                             className="h-10 rounded border font-normal border-gray-300 focus:outline-none focus:border-[--focus-border] px-2 py-2 mt-2 w-full"
                         />
                     </div>
+                    {errors.username && (
+                        <p className="text-[--bg-btn-rosa] text-sm">
+                            {errors.username.message}
+                        </p>
+                    )}
                 </label>
 
                 <label className="flex flex-col items-left text-[--text-dark] font-bold w-full mb-4">
@@ -74,11 +104,16 @@ export function CreateUserForm() {
                         <Input
                             {...register("email")}
                             type="email"
-                            required={true}
+                            autoComplete={"off"}
                             placeholder="exemplo@email.com"
                             className="h-10 rounded border font-normal border-gray-300 focus:outline-none focus:border-[--focus-border] px-2 py-2 mt-2 w-full"
                         />
                     </div>
+                    {errors.email && (
+                        <p className="text-[--bg-btn-rosa] text-sm">
+                            {errors.email.message}
+                        </p>
+                    )}
                 </label>
                 <label className="inline items-left text-[--text-dark] font-bold w-full mb-4">
                     Senha
@@ -86,16 +121,19 @@ export function CreateUserForm() {
                         <Input
                             {...register("password")}
                             type={showPassword}
-                            required={true}
                             placeholder="Sua senha"
                             className="h-10 rounded border font-normal border-gray-300 focus:outline-none focus:border-[--focus-border] px-2 py-2 mt-2 w-full"
                         />
-                        <FaEye
+                        <EyeIcon
                             onClick={setVisiblePassword}
-                            size={25}
                             className={"absolute top-4 right-4"}
                         />
                     </div>
+                    {errors.password && (
+                        <p className="text-[--bg-btn-rosa] text-sm">
+                            {errors.password.message}
+                        </p>
+                    )}
                 </label>
 
                 <label className="inline items-left text-[--text-dark] font-bold w-full mb-8">
@@ -104,30 +142,28 @@ export function CreateUserForm() {
                         <Input
                             {...register("confirmPassword")}
                             type={showConfirmPassword}
-                            required={true}
                             placeholder="Confirme sua senha"
                             className="h-10 rounded border font-normal border-gray-300 focus:outline-none focus:border-[--focus-border] px-2 py-2 mt-2 w-full"
                         />
-                        <FaEye
+                        <EyeIcon
                             onClick={setVisibleConfirmPassword}
-                            size={25}
                             className={"absolute top-4 right-4"}
                         />
                     </div>
+                    {errors.confirmPassword && (
+                        <p className="text-[--bg-btn-rosa] text-sm">
+                            {errors.confirmPassword.message}
+                        </p>
+                    )}
                 </label>
 
                 <div className="flex flex-col items-center mt-4 w-full">
                     <button
-                        className="hover:bg-[#000000d2] rounded w-full py-2 px-2 bg-[--bg-btn-dark] text-white font-bold focus:outline-none disabled:opacity-50"
+                        className="hover:bg-[#f8432ed1] hover:shadow-sm rounded w-full py-2 px-2 bg-[--bg-btn-rosa] text-white font-bold focus:outline-none disabled:opacity-70"
                         type="submit"
-                        disabled={
-                            !formData.username &&
-                            !formData.email &&
-                            !formData.password &&
-                            !formData.confirmPassword
-                        }
+                        disabled={isSubmitting}
                     >
-                        Criar
+                        {isSubmitting ? "Criando..." : "Criar"}
                     </button>
                 </div>
 

@@ -1,19 +1,10 @@
 "use client";
 import { useRef, useState } from "react";
-import { Button, Input } from "@/components";
-
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "../ui/sheet";
-import { LogInIcon, UserIcon, SearchIcon, XIcon } from "lucide-react";
-import Link from "next/link";
+import { Button, Input, OfflineUserModal } from "@/components";
+import { Sheet, SheetTrigger } from "../ui/sheet";
+import { UserIcon, SearchIcon, XIcon } from "lucide-react";
+import { getUSer } from "@/factories";
+import { OnlineUserModal } from "@/components";
 
 export function Header() {
     const [menuModal, setMenuModal] = useState(false);
@@ -29,11 +20,18 @@ export function Header() {
         setOpenSearch(!openSearch);
     };
 
+    const user = getUSer.execute();
+
     return (
         <header className="flex bg-gradient-to-r from-[--bg-light] to-[--bg-dark] shadow-lg h-16 items-center">
-            <div className="flex text-[--text-dark] h-16 lg:w-[15%] md:w-[15%] sm:w-[15%] w-[80%] items-center justify-center">
-                <h1 className="text-xl font-bold">Clean Architecture</h1>
-            </div>
+            <a
+                className="flex text-[--text-dark] h-16 lg:w-[15%] md:w-[15%] sm:w-[15%] w-[80%] items-center justify-center"
+                href="/"
+            >
+                <h1 className="text-xl text-[--bg-btn-dark] font-bold">
+                    Events Calendary
+                </h1>
+            </a>
 
             <div className="flex text-[--text-dark] h-16 lg:w-[70%] md:w-[70%] sm:w-[70%]  w-[10%] items-center justify-center">
                 <Input
@@ -41,7 +39,7 @@ export function Header() {
                     onChange={(e) => console.log(e.target.value)}
                     type="search"
                     className="hidden lg:inline md:inline sm:inline rounded border-gray-300 focus:outline-none focus:border-[--focus-border] w-full h-10 p-2 pr-10"
-                    placeholder="Pesquise pelos seus produtos favoritos"
+                    placeholder="Pesquise seus eventos"
                 />
                 <Button className="" id="search_btn1">
                     <SearchIcon className="hidden sm:inline ml-4" />
@@ -59,67 +57,12 @@ export function Header() {
                 <SheetTrigger asChild>
                     <div className="flex text-[--text-dark] h-16 w-[10%] lg:w-[15%] md:w-[15%] items-center justify-center">
                         <Button onClick={handleOpenMenuModal}>
-                            <UserIcon />
+                            <UserIcon size={26} />
                         </Button>
                     </div>
                 </SheetTrigger>
 
-                <SheetContent
-                    side="right"
-                    className="w-[300px] bg-gradient-to-r from-[--bg-light] to-[--bg-dark]"
-                >
-                    <SheetHeader className="mb-5 text-left">
-                        <SheetTitle>Menu</SheetTitle>
-                        <SheetDescription>
-                            {" "}
-                            Olá {`${"fulano"}`}, seja bem vindo.
-                        </SheetDescription>
-                    </SheetHeader>
-                    <div className="flex flex-col mb-32 gap-4">
-                        <SheetClose asChild>
-                            <Link
-                                className="flex flex-col items-center w-full mb-8"
-                                href="/login"
-                            >
-                                <Button
-                                    className="hover:bg-[#000000d2] hover:shadow-sm rounded w-full py-2 px-4 bg-[--bg-btn-dark] text-white focus:outline-none disabled:opacity-50"
-                                    type="submit"
-                                >
-                                    Entrar
-                                </Button>
-                            </Link>
-                        </SheetClose>
-                        <SheetHeader className="">
-                            <SheetDescription>
-                                {" "}
-                                Ainda não tem uma conta? Crie já.
-                            </SheetDescription>
-                        </SheetHeader>
-                        <SheetClose asChild>
-                            <Link
-                                className="flex flex-col items-center w-full mb-4"
-                                href="/login"
-                            >
-                                <Button
-                                    className="hover:bg-[#000000d2] hover:shadow-sm rounded w-full py-2 px-4 bg-[--bg-btn-dark] text-white focus:outline-none disabled:opacity-50"
-                                    type="submit"
-                                >
-                                    Criar
-                                </Button>
-                            </Link>
-                        </SheetClose>
-                    </div>
-                    <SheetFooter>
-                        <SheetClose asChild>
-                            <Button
-                                className="hover:bg-[#f8432ed1] hover:shadow-sm rounded w-1/2 m-auto py-2 px-4 bg-[--bg-btn-rosa] text-white focus:outline-none disabled:opacity-50"
-                                type="button"
-                            >
-                                Fechar
-                            </Button>
-                        </SheetClose>
-                    </SheetFooter>
-                </SheetContent>
+                {user?.name ? <OnlineUserModal /> : <OfflineUserModal />}
             </Sheet>
             {openSearch ? (
                 <div className="absolute top-0 right-0 text-[--text-dark]">
@@ -127,7 +70,7 @@ export function Header() {
                         ref={inputModalRef}
                         onChange={(e) => console.log(e.target.value)}
                         className="rounded border border-gray-300 focus:outline-none focus:border-[--focus-border] w-screen h-16"
-                        placeholder="Pesquise pelos seus produtos favoritos"
+                        placeholder="Pesquise seus eventos"
                     />
 
                     <Button>

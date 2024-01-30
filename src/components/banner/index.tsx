@@ -9,7 +9,8 @@ export function Banner() {
                 width={0}
                 height={0}
                 alt="banner"
-                className="lg:h-[50%] w-[50%] "
+                className="h-[50%] w-[50%]"
+                priority
             />
         </section>
     );
