@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sejam bem vindos ao repositório frontend do desáfio Tokenlabs!
 
-## Getting Started
+Este projeto foi completamente desenvolvido em TypeScript, utilizando React.js, Next.js e outras bibliotecas auxiliares como Zod, jsonwebtoken, moment, fullcalendar.io entre algumas outras. 🚀
 
-First, run the development server:
+# Orientações
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Antes de começar a desenvolver
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+👀 Leia essa parte atentamente, pois aqui você encontrará informações importantes para rodar corretamente o projeto.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<details>
+<summary><strong> 🔰 Instruções </strong></summary><br />
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone o repositório
 
-## Learn More
+-   `git clone https://github.com/Gabrielja2/my-calendary.git`
 
-To learn more about Next.js, take a look at the following resources:
+2. Entre na pasta do repositório que você acabou de clonar:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   `cd pasta-do-repositório`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. Instale as dependências
 
-## Deploy on Vercel
+-   `npm install`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Configure as variáveis de ambiente se necessário:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-   Crie um arquivo .env na raiz do projeto e preencha as variáveis de ambiente, como a URL base da api: API_BASE_URL= `http://localhost:3333/api`.
+
+6. Dentro do diretório my-calendary, abra um terminal e inicie rode o projeto:
+
+-   `npm run dev`
+
+</details><br />
