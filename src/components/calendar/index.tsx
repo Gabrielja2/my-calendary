@@ -5,49 +5,24 @@ import interactionPlugin from "@fullcalendar/interaction";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import {
-    authenticationAdapter,
     createScheduleService,
     deleteScheduleService,
-    getSchedulesService,
+    getSchedulesByUserService,
     updateScheduleService,
 } from "@/factories";
 import moment from "moment";
 
 export default function Calendar() {
     function renderEventContent(eventInfo: any) {
-        const userId = eventInfo.event.extendedProps.userId;
-        const token = JSON.parse(localStorage.getItem("token") as string);
-        const user = authenticationAdapter.decodeJsonWebToken(token);
-        const owner = user.id === userId;
-
-        if (owner) {
-            return (
-                <div>
-                    <b className="text-sm">
-                        {moment(eventInfo.event.start).format("DD/MM")}
-                    </b>
-                    <i>- {moment(eventInfo.event.start).format("HH:mm")}</i>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <b className="text-sm">
-                        {moment(eventInfo.event.start).format("DD/MM")}
-                    </b>
-                    <i>- CHEIO</i>
-                </div>
-            );
-        }
+        return (
+            <div>
+                <b className="text-sm">
+                    {moment(eventInfo.event.start).format("DD/MM")}
+                </b>
+                <i>- {moment(eventInfo.event.start).format("HH:mm")}</i>
+            </div>
+        );
     }
-
-    const defineEventColor = function (eventInfo: any) {
-        const userId = eventInfo.event.extendedProps.userId;
-        const token = JSON.parse(localStorage.getItem("token") as string);
-        const user = authenticationAdapter.decodeJsonWebToken(token);
-
-        return user.id === userId ? "bg-blue-500" : "bg-red-500";
-    };
 
     const handleEventClick = async (clickInfo: any) => {
         if (
@@ -69,7 +44,7 @@ export default function Calendar() {
     };
 
     const handleInitialEvents = async () => {
-        const events = await getSchedulesService.execute();
+        const events = await getSchedulesByUserService.execute();
         events.map((event: any) => {
             return {
                 id: event.id,
@@ -96,11 +71,13 @@ export default function Calendar() {
                 end: selectInfo.endStr,
                 allDay: selectInfo.allDay,
             });
+
             const data = {
                 title: newEvent.title,
                 start: newEvent.startStr,
                 end: newEvent.endStr,
             };
+            console.log("data", data);
 
             const response = await createScheduleService.execute(
                 data.title,
@@ -155,7 +132,7 @@ export default function Calendar() {
                 eventClick={handleEventClick}
                 eventChange={handleEventChange}
                 initialEvents={handleInitialEvents}
-                eventClassNames={defineEventColor}
+                // eventClassNames={defineEventColor}
             />
         </div>
     );

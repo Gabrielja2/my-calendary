@@ -1,10 +1,10 @@
 import { deleteScheduleService, toastifyAdapter } from "@/factories";
 
-export const handleDeleteHelper = async (id: string) => {
+export const handleDelete = async (id: string) => {
     if (confirm("Tem certeza que deseja remover o evento?")) {
         const response = await deleteScheduleService.execute(id);
         if (typeof response === "string") {
-            toastifyAdapter.toast(response, {
+            toastifyAdapter.toast("Evento removido com sucesso!", {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,

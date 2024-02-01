@@ -10,23 +10,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import moment from "moment";
-import { handleDeleteHelper } from "@/helpers";
+import { EventScheduleData } from "@/types";
+import { useState } from "react";
 
-type ScheduleData = {
-    id: string;
-    title: string;
-    start: string;
-    end: string;
-};
-export function EventCard(schedule: ScheduleData) {
-    const handleDelete = handleDeleteHelper;
+type EventCardProps = {
+    onClickDelete: (id: string) => void;
+    onClickEdit: (fields: EventScheduleData) => void;
+} & EventScheduleData;
+
+export function EventCard(props: EventCardProps) {
+    const { id, title, start, end, onClickDelete, onClickEdit } = props;
+    const [isEditing, setIsEditing] = useState(false);
+    const [fields, setFields] = useState({
+        id,
+        title,
+        start,
+        end,
+    });
+
+    const handleChangeInput = (field: string) => (e: any) => {
+        setFields((oldState) => ({
+            ...oldState,
+            [field]: e.target.value,
+        }));
+    };
 
     return (
         <Card className="sm:w-[20%] sm:h-[65%]">
             <CardHeader>
                 <CardTitle>Evento</CardTitle>
-                <CardDescription>{schedule.id}</CardDescription>
+                <CardDescription>{props.id}</CardDescription>
             </CardHeader>
             <CardContent>
                 <form>
@@ -36,8 +49,9 @@ export function EventCard(schedule: ScheduleData) {
                             <Input
                                 id="title"
                                 placeholder="Titulo do evento"
-                                value={schedule?.title}
-                                readOnly
+                                value={fields.title}
+                                onChange={handleChangeInput("title")}
+                                disabled={isEditing ? false : true}
                             />
                         </div>
                         <div className="flex flex-col space-y-1.5">
@@ -45,10 +59,9 @@ export function EventCard(schedule: ScheduleData) {
                             <Input
                                 id="start"
                                 placeholder="Inicio do evento"
-                                value={moment(schedule?.start).format(
-                                    "DD/MM/YYYY:HH:mm"
-                                )}
-                                readOnly
+                                value={fields.start}
+                                onChange={handleChangeInput("start")}
+                                disabled={isEditing ? false : true}
                             />
                         </div>
                         <div className="flex flex-col space-y-1.5">
@@ -56,10 +69,9 @@ export function EventCard(schedule: ScheduleData) {
                             <Input
                                 id="end"
                                 placeholder="Término do evento"
-                                value={moment(schedule?.end).format(
-                                    "DD/MM/YYYY:HH:mm"
-                                )}
-                                readOnly
+                                value={fields.end}
+                                onChange={handleChangeInput("end")}
+                                disabled={isEditing ? false : true}
                             />
                         </div>
                     </div>
@@ -67,10 +79,23 @@ export function EventCard(schedule: ScheduleData) {
             </CardContent>
             <CardFooter className="flex justify-between gap-2">
                 <Button
-                    onClick={() => handleDelete(schedule.id)}
-                    className="hover:bg-[#f8432ed1] hover:shadow-sm rounded w-full py-2 px-2 bg-[--bg-btn-rosa] text-white font-bold focus:outline-none disabled:opacity-70"
+                    onClick={() => onClickDelete(id)}
+                    className="hover:bg-[#f8432ed1] hover:shadow-sm rounded w-1/2 py-2 px-2 bg-[--bg-btn-rosa] text-white font-bold focus:outline-none disabled:opacity-70"
                 >
-                    Cancelar Evento
+                    Deletar
+                </Button>
+                <Button
+                    onClick={() => {
+                        if (isEditing) {
+                            onClickEdit(fields);
+                            setIsEditing(false);
+                        } else {
+                            setIsEditing(true);
+                        }
+                    }}
+                    className="hover:bg-[#f8432ed1] hover:shadow-sm rounded w-1/2 py-2 px-2 bg-[--bg-btn-rosa] text-white font-bold focus:outline-none disabled:opacity-70"
+                >
+                    {isEditing ? "Salvar" : "Editar"}
                 </Button>
             </CardFooter>
         </Card>

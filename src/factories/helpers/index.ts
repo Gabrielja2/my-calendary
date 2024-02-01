@@ -1,4 +1,4 @@
-import { HandleLogoutHelper, HandleSignHelper, HandleSignupHelper } from "@/helpers";
+import { HandleLogoutHelper, HandleSignHelper, HandleSignupHelper, handleDelete, handleUpdate } from "@/helpers";
 import { toastifyAdapter } from "../external";
 import { createUserService, loginService } from "@/factories";
 
@@ -7,4 +7,8 @@ export const handleSignInHelper = new HandleSignHelper(loginService, toastifyAda
 export const handleSignupHelper = new HandleSignupHelper(createUserService, toastifyAdapter);
 
 export const logoutHelper = new HandleLogoutHelper();
+
+export const handleDeleteHelper = handleDelete;
+
+export const handleUpdateHelper = handleUpdate;
 

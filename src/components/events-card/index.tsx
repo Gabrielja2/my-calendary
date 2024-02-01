@@ -1,33 +1,41 @@
 "use client";
 
-import { API_BASE_URL } from "@/shared";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     getSchedulesByUserService,
-    getSchedulesService,
-    restAdapter,
     toastifyAdapter,
+    handleDeleteHelper,
+    handleUpdateHelper,
 } from "@/factories";
 import { EventCard } from "..";
 import Link from "next/link";
+import { formatScheduleResponse } from "@/helpers";
+import { EventScheduleData } from "@/types";
 
 export function EventsCards() {
-    const [schedules, setSchedules] = useState<ScheduleData[]>([]);
+    const [schedules, setSchedules] = useState<EventScheduleData[]>([]);
 
-    type ScheduleData = {
-        id: string;
-        title: string;
-        start: string;
-        end: string;
-    };
-
-    useEffect(() => {
-        const schedules = getSchedulesByUserService
-            .execute()
-            .then((res) => setSchedules(res));
+    const fetchSchedules = useCallback(async () => {
+        const schedules = await getSchedulesByUserService.execute();
+        setSchedules(formatScheduleResponse(schedules));
     }, []);
 
-    const renderSchedulesMap = (schedules: ScheduleData[]) => {
+    const handleDeleteEvent = useCallback(async (id: string) => {
+        await handleDeleteHelper(id);
+        await fetchSchedules();
+    }, []);
+
+    const handleUpdateEvent = useCallback(async (fields: EventScheduleData) => {
+        await handleUpdateHelper(fields);
+        await fetchSchedules();
+    }, []);
+
+    useEffect(() => {
+        console.count("effect");
+        fetchSchedules();
+    }, [fetchSchedules]);
+
+    const renderSchedulesMap = (schedules: EventScheduleData[]) => {
         return schedules.map((schedule, index) => {
             return (
                 <EventCard
@@ -36,6 +44,10 @@ export function EventsCards() {
                     title={schedule.title}
                     start={schedule.start}
                     end={schedule.end}
+                    onClickDelete={handleDeleteEvent}
+                    onClickEdit={async (fields) => {
+                        handleUpdateEvent(fields);
+                    }}
                 />
             );
         });
