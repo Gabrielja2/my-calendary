@@ -26,6 +26,7 @@ export class HandleSignupHelper implements HandleSignupHelperProtocol {
                 draggable: true,
                 progress: undefined,
                 theme: "dark",
+                type: "success",
             });
 
             window.location.href = "/login";
@@ -39,6 +40,7 @@ export class HandleSignupHelper implements HandleSignupHelperProtocol {
                 draggable: true,
                 progress: undefined,
                 theme: "dark",
+                type: "error",
             });
         }
     };

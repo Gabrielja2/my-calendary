@@ -7,12 +7,9 @@ import {
     SheetTitle,
 } from "../ui/sheet";
 import { Button } from "@/components";
-import { getUSer } from "@/factories";
 import Link from "next/link";
 
 export function OfflineUserModal() {
-    const user = getUSer.execute();
-
     return (
         <SheetContent
             side="right"

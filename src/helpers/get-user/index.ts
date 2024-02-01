@@ -1,11 +1,14 @@
 import { authenticationAdapter } from "@/factories";
 
-export class GetUser {
-    public execute = () => {
-        const token = JSON.parse(localStorage.getItem("token")!);
 
-        const decodeBtoa = atob(token);
+export const getUser = () => {
+    try {
+        const token = JSON.parse(localStorage.getItem("token") as string);
 
-        return authenticationAdapter.decodeJsonWebToken(decodeBtoa);
+        return authenticationAdapter.decodeJsonWebToken(token);
+    } catch (error) {
+        console.log(error);
+
     }
 }
+

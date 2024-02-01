@@ -5,7 +5,7 @@ export class AuthenticationAdapter implements AuthenticationProtocol {
     private readonly jsonWebToken = jsonWebToken;
 
 
-    decodeJsonWebToken(token: string): JwtPayload | JsonWebTokenInvalidError {
+    decodeJsonWebToken(token: string): JwtPayload | JsonWebTokenInvalidError | any {
         try {
             return jsonWebToken.decode(token) as JwtPayload
 

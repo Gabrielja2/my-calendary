@@ -24,10 +24,10 @@ export class HandleSignHelper implements HandleSignHelperProtocol {
                 draggable: true,
                 progress: undefined,
                 theme: "dark",
+                type: "success",
             });
-            const encodedBase64 = btoa(result);
 
-            localStorage.setItem("token", JSON.stringify(encodedBase64));
+            localStorage.setItem("token", JSON.stringify(result));
 
             window.location.href = "/";
         } else {
@@ -40,6 +40,7 @@ export class HandleSignHelper implements HandleSignHelperProtocol {
                 draggable: true,
                 progress: undefined,
                 theme: "dark",
+                type: "error",
             });
         }
     };

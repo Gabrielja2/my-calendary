@@ -9,8 +9,8 @@ export class RestServicesAdapter implements RestServicesProtocol {
 
     public async post<Type>(url: string, data?: object, headers?: object): Promise<Type> {
         try {
-            const options = headers ? headers : undefined;
-            const response = await axios.post(url, data, options);
+
+            const response = await axios.post(url, data, headers);
 
             return response.data;
         } catch (error: any) {
@@ -20,8 +20,8 @@ export class RestServicesAdapter implements RestServicesProtocol {
 
     public async get<Type>(url: string, headers?: object): Promise<Type> {
         try {
-            const options = headers ? headers : undefined;
-            const response = await axios.get(url, options);
+
+            const response = await axios.get(url, headers);
 
             return response.data;
         } catch (error: any) {
@@ -31,8 +31,8 @@ export class RestServicesAdapter implements RestServicesProtocol {
 
     public async put<Type>(url: string, data?: object, headers?: object): Promise<Type> {
         try {
-            const options = headers ? headers : undefined;
-            const response = await axios.put(url, data, options);
+
+            const response = await axios.put(url, data, headers);
 
             return response.data;
         } catch (error: any) {
@@ -42,8 +42,8 @@ export class RestServicesAdapter implements RestServicesProtocol {
 
     public async patch<Type>(url: string, data?: object, headers?: object): Promise<Type> {
         try {
-            const options = headers ? headers : undefined;
-            const response = await axios.patch(url, data, options);
+
+            const response = await axios.patch(url, data, headers);
 
             return response.data;
         } catch (error: any) {
@@ -51,10 +51,10 @@ export class RestServicesAdapter implements RestServicesProtocol {
         }
     }
 
-    public async del<Type>(url: string, headers?: object): Promise<Type> {
+    public async delete<Type>(url: string, headers?: object): Promise<Type> {
         try {
-            const options = headers ? headers : undefined;
-            const response = await axios.delete(url, options);
+
+            const response = await axios.delete(url, headers);
 
             return response.data;
         } catch (error: any) {

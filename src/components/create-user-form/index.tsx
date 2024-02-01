@@ -86,7 +86,7 @@ export function CreateUserForm() {
                         <Input
                             {...register("username")}
                             type="text"
-                            autoComplete={"off"}
+                            autoComplete={"on"}
                             placeholder="Seu nome"
                             className="h-10 rounded border font-normal border-gray-300 focus:outline-none focus:border-[--focus-border] px-2 py-2 mt-2 w-full"
                         />
@@ -104,7 +104,7 @@ export function CreateUserForm() {
                         <Input
                             {...register("email")}
                             type="email"
-                            autoComplete={"off"}
+                            autoComplete={"on"}
                             placeholder="exemplo@email.com"
                             className="h-10 rounded border font-normal border-gray-300 focus:outline-none focus:border-[--focus-border] px-2 py-2 mt-2 w-full"
                         />
