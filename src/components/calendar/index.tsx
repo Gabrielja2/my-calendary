@@ -21,8 +21,6 @@ export default function Calendar() {
         const owner = user.id === userId;
 
         if (owner) {
-            console.log("owner");
-            eventInfo.backgroundColor = "blue";
             return (
                 <div>
                     <b className="text-sm">

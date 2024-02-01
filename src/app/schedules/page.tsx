@@ -1,5 +1,4 @@
 import { EventsCards, Footer, Header } from "@/components";
-import { Suspense } from "react";
 
 export default function Schedules() {
     return (
