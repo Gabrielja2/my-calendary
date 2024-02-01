@@ -132,7 +132,7 @@ export default function Calendar() {
                 eventClick={handleEventClick}
                 eventChange={handleEventChange}
                 initialEvents={handleInitialEvents}
-                // eventClassNames={defineEventColor}
+                locale={"pt-br"}
             />
         </div>
     );
