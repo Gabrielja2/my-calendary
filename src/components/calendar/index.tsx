@@ -15,13 +15,11 @@ import moment from "moment";
 export default function Calendar() {
     function renderEventContent(eventInfo: any) {
         return (
-            <div>
-                <b className="text-sm">
-                    {moment(eventInfo.event.start).format("DD/MM")}
-                </b>
+            <div className="text-[11px]">
+                <b>{moment(eventInfo.event.start).format("DD/MM")} </b>
                 <i>
-                    - {moment(eventInfo.event.start).format("HH:mm")} -{" "}
-                    {moment(eventInfo.event.end).format("HH:mm")}
+                    de {moment(eventInfo.event.start).format("H:mm")}h às{" "}
+                    {moment(eventInfo.event.end).format("H:mm")}h
                 </i>
             </div>
         );
