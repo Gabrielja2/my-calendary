@@ -31,7 +31,6 @@ export function EventsCards() {
     }, []);
 
     useEffect(() => {
-        console.count("effect");
         fetchSchedules();
     }, [fetchSchedules]);
 

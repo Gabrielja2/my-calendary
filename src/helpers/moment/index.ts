@@ -2,13 +2,16 @@ import { EventScheduleData } from "@/types";
 import moment from 'moment-timezone'
 
 export function formatScheduleResponse(schedules: EventScheduleData[]) {
-    return schedules.map((schedule) => {
-        return {
-            ...schedule,
-            start: moment(schedule.start).tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm"),
-            end: moment(schedule.start).tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm"),
-        };
-    });
+    if (schedules.length > 0) {
+        return schedules.map((schedule) => {
+            return {
+                ...schedule,
+                start: moment(schedule.start).tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm"),
+                end: moment(schedule.start).tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm"),
+            };
+        });
+    }
+    return []
 }
 
 export function formatScheduleRequest(start: string, end: string) {
