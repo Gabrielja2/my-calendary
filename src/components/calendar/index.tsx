@@ -19,7 +19,10 @@ export default function Calendar() {
                 <b className="text-sm">
                     {moment(eventInfo.event.start).format("DD/MM")}
                 </b>
-                <i>- {moment(eventInfo.event.start).format("HH:mm")}</i>
+                <i>
+                    - {moment(eventInfo.event.start).format("HH:mm")} -{" "}
+                    {moment(eventInfo.event.end).format("HH:mm")}
+                </i>
             </div>
         );
     }
