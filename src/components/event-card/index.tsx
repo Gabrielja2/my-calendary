@@ -36,7 +36,7 @@ export function EventCard(props: EventCardProps) {
     };
 
     return (
-        <Card className="sm:w-[20%] sm:h-[65%]">
+        <Card className="w-[350px] h-[400px] m-4">
             <CardHeader>
                 <CardTitle>Evento</CardTitle>
                 <CardDescription>{props.id}</CardDescription>
@@ -79,10 +79,16 @@ export function EventCard(props: EventCardProps) {
             </CardContent>
             <CardFooter className="flex justify-between gap-2">
                 <Button
-                    onClick={() => onClickDelete(id)}
+                    onClick={() => {
+                        if (isEditing) {
+                            setIsEditing(false);
+                        } else {
+                            onClickDelete(id);
+                        }
+                    }}
                     className="hover:bg-[#f8432ed1] hover:shadow-sm rounded w-1/2 py-2 px-2 bg-[--bg-btn-rosa] text-white font-bold focus:outline-none disabled:opacity-70"
                 >
-                    Deletar
+                    {isEditing ? "Cancelar" : "Deletar"}
                 </Button>
                 <Button
                     onClick={() => {

@@ -54,7 +54,7 @@ export function EventsCards() {
     };
 
     return (
-        <div className="flex flex-wrap gap-8 justify-center h-screen overflow-x-auto my-8">
+        <div className="flex flex-wrap items-center justify-center h-screen sm:w-[70%] m-auto overflow-x-auto">
             {schedules.length > 0 ? (
                 renderSchedulesMap(schedules)
             ) : (
