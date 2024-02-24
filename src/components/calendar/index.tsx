@@ -7,20 +7,26 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import {
     createScheduleService,
     deleteScheduleService,
-    getSchedulesByUserService,
+    getSchedulesService,
     updateScheduleService,
 } from "@/factories";
-import moment from "moment";
+import { getUser } from "@/helpers";
 
 export default function Calendar() {
     function renderEventContent(eventInfo: any) {
+        const userId = eventInfo.event.extendedProps.userId;
+        const loggedUser = getUser();
+
+        if (userId !== loggedUser.id) {
+            return (
+                <div>
+                    <b className="flex justify-center">{"Cheio"}</b>
+                </div>
+            );
+        }
         return (
-            <div className="text-[11px]">
-                <b>{moment(eventInfo.event.start).format("DD/MM")} </b>
-                <i>
-                    de {moment(eventInfo.event.start).format("H:mm")}h às{" "}
-                    {moment(eventInfo.event.end).format("H:mm")}h
-                </i>
+            <div className="flex justify-center">
+                <b>{eventInfo.timeText}</b>
             </div>
         );
     }
@@ -45,7 +51,7 @@ export default function Calendar() {
     };
 
     const handleInitialEvents = async () => {
-        const events = await getSchedulesByUserService.execute();
+        const events = await getSchedulesService.execute();
         events.map((event: any) => {
             return {
                 id: event.id,
@@ -132,7 +138,28 @@ export default function Calendar() {
                 eventContent={renderEventContent}
                 eventClick={handleEventClick}
                 eventChange={handleEventChange}
-                initialEvents={handleInitialEvents}
+                initialEvents={(
+                    fetchInfo,
+                    successCallback,
+                    failureCallback
+                ) => {
+                    handleInitialEvents()
+                        .then((events) => {
+                            const coloredEvents = events.map((event: any) => {
+                                return {
+                                    ...event,
+                                    color:
+                                        event.userId === getUser().id
+                                            ? "#3788D8"
+                                            : "#e74d3d",
+                                };
+                            });
+                            successCallback(coloredEvents);
+                        })
+                        .catch((error) => {
+                            failureCallback(error);
+                        });
+                }}
                 locale={"pt-br"}
             />
         </div>

@@ -1,4 +1,4 @@
-import { API_BASE_URL, JWT_TOKEN } from "@/shared";
+import { API_BASE_URL } from "@/shared";
 import { RestServicesProtocol } from "@/external";
 import { GetSchedulesServiceProtocol } from "./protocol";
 
